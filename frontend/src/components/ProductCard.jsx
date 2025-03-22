@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ProductCard = () => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [imageFile, setImageFile] = useState(null);
+  // const [imageFile, setImageFile] = useState(null);
 
   const fetchProducts = async () => {
     try {
@@ -25,6 +27,16 @@ const ProductCard = () => {
       const response = await fetch(`http://localhost:3000/api/products/${id}`, { method: "DELETE" });
       if (!response.ok) throw new Error("Failed to delete product");
       fetchProducts();
+      toast.success("Product deleted successfully.", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     } catch (error) {
       console.error("Error deleting product:", error);
     }
@@ -43,7 +55,7 @@ const ProductCard = () => {
       formData.append("sku", selectedProduct.sku);
       formData.append("name", selectedProduct.name);
       formData.append("price", selectedProduct.price);
-      if (imageFile) formData.append("image", imageFile);
+      // if (imageFile) formData.append("image", imageFile);
 
       const response = await fetch(`http://localhost:3000/api/products/${selectedProduct.id}`, {
         method: "PUT",
@@ -53,8 +65,18 @@ const ProductCard = () => {
       if (!response.ok) throw new Error("Failed to update product");
 
       setIsModalOpen(false);
-      setImageFile(null); // Reset image file after upload
+      // setImageFile(null); // Reset image file after upload
       fetchProducts();
+      toast.success("Product updated successfully.", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     } catch (error) {      
       
       console.error("Error updating product:", error);
@@ -65,11 +87,27 @@ const ProductCard = () => {
     setSelectedProduct({ ...selectedProduct, [e.target.name]: e.target.value });
   };
 
-  const handleImageChange = (e) => {
-    setImageFile(e.target.files[0]);
-  };
+  // const handleImageChange = (e) => {
+  //   setImageFile(e.target.files[0]);
+  // };
 
   return (
+    <>
+    <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition="Bounce"
+      />
+      {/* Same as */}
+      <ToastContainer />
     <div className='product-card'>
       {products.map((product) => (
         <div key={product.id} className="card card-side bg-base-100 shadow-sm">
@@ -77,8 +115,8 @@ const ProductCard = () => {
             <img
               src={`data:image/png;base64,${JSON.parse(product.images)[0]}`}
               alt={product.name}
-              className="w-20 h-20 object-cover"
-            />
+              className="w-40 h-40 object-contain"
+              />
           </figure>
           <div className="card-body">
             <h2 className="card-title">{product.name}</h2>
@@ -107,7 +145,7 @@ const ProductCard = () => {
                 value={selectedProduct.sku}
                 onChange={handleChange}
                 className="input input-bordered w-full"
-              />
+                />
 
               <label>Name:</label>
               <input
@@ -116,7 +154,7 @@ const ProductCard = () => {
                 value={selectedProduct.name}
                 onChange={handleChange}
                 className="input input-bordered w-full"
-              />
+                />
 
               <label>Price:</label>
               <input
@@ -127,12 +165,7 @@ const ProductCard = () => {
                 className="input input-bordered w-full"
               />
 
-              <label>Image :</label>
-              <input
-                type="file"
-                onChange={handleImageChange}
-                className="input input-bordered w-full"
-              />
+              
 
               <div className="modal-action">
                 <button type="submit" className="btn btn-primary">Update</button>
@@ -143,6 +176,7 @@ const ProductCard = () => {
         </div>
       )}
     </div>
+      </>
   );
 };
 

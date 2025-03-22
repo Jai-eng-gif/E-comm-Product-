@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function AddProduct() {
   const [formData, setFormData] = useState({ sku: '', name: '', price: '' });
@@ -39,9 +41,19 @@ export default function AddProduct() {
       const response = await fetch("http://localhost:3000/api/products", requestOptions);
 
       if (response.ok) {
-        alert('Product added successfully');
+        // alert('Product added successfully');
         setFormData({ sku: '', name: '', price: '' });
         setImages([]);
+        toast.success("Product added successfully.", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       } else {
         alert('Failed to add product');
       }
@@ -51,9 +63,24 @@ export default function AddProduct() {
     }
   };
 
-  return (
+  return (<>
+   <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition="Bounce"
+      />
+      {/* Same as */}
+      <ToastContainer />
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <form onSubmit={handleSubmit} className="bg-white p-8  rounded-2xl shadow-lg w-50 max-w-lg">
+      <form onSubmit={handleSubmit} className="bg-white   rounded-2xl shadow-lg w-full max-w-lg " style={{ padding: '2%' }}>
         <h2 className="text-2xl font-semibold mb-6 text-center">Product Form</h2>
 
         <div className="mb-4" style={{ marginBottom: '1em' }}>
@@ -63,7 +90,7 @@ export default function AddProduct() {
             name="sku"
             value={formData.sku}
             onChange={handleInputChange}
-            className="w-80 p-2 border rounded-xl  focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full  p-2 border rounded-xl  focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
         </div>
@@ -75,7 +102,7 @@ export default function AddProduct() {
             name="name"
             value={formData.name}
             onChange={handleInputChange}
-            className="w-80 p-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
         </div>
@@ -87,7 +114,7 @@ export default function AddProduct() {
             name="price"
             value={formData.price}
             onChange={handleInputChange}
-            className="w-80 p-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
         </div>
@@ -99,7 +126,7 @@ export default function AddProduct() {
             multiple
             accept="image/*"
             onChange={handleImageChange}
-            className="w-80 p-2 border rounded-xl"
+            className="w-full p-2 border rounded-xl"
           />
         </div>
 
@@ -126,5 +153,6 @@ export default function AddProduct() {
         </button>
       </form>
     </div>
+    </>
   );
 }
