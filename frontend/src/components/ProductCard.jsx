@@ -10,7 +10,7 @@ const ProductCard = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/products/");
+      const response = await fetch("https://e-comm-product-k663.vercel.app/api/products/");
       const result = await response.json();
       setProducts(result);
     } catch (error) {
@@ -24,7 +24,7 @@ const ProductCard = () => {
 
   const deleteProduct = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/products/${id}`, { method: "DELETE" });
+      const response = await fetch(`https://e-comm-product-k663.vercel.app/api/products/${id}`, { method: "DELETE" });
       if (!response.ok) throw new Error("Failed to delete product");
       fetchProducts();
       toast.success("Product deleted successfully.", {
@@ -57,7 +57,7 @@ const ProductCard = () => {
       formData.append("price", selectedProduct.price);
       // if (imageFile) formData.append("image", imageFile);
 
-      const response = await fetch(`http://localhost:3000/api/products/${selectedProduct.id}`, {
+      const response = await fetch(`https://e-comm-product-k663.vercel.app/api/products/${selectedProduct.id}`, {
         method: "PUT",
         body: formData,
       });
