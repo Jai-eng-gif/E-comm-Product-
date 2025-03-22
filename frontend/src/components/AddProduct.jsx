@@ -38,7 +38,7 @@ export default function AddProduct() {
         body: formdata,
       };
 
-      const response = await fetch("https://e-comm-product-k663.vercel.app/api/products", requestOptions);
+      const response = await fetch("http://localhost:3000/api/products", requestOptions);
 
       if (response.ok) {
         // alert('Product added successfully');
