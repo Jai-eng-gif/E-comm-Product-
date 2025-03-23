@@ -4,9 +4,9 @@ const AppDataSource = new DataSource({
     type: 'mysql',
     host: 'sql12.freesqldatabase.com',
     port: 3306,
-    username: 'sql12768986',
-    password: 'AgyyeC9mBG',
-    database: 'sql12768986',
+    username: 'sql12769107',
+    password: 'dIKhp54zXP',
+    database: 'sql12769107',
     entities: [require('../models/Product')],
     synchronize: true, // Auto-create tables
 });
