@@ -14,6 +14,6 @@ app.get('/', (req, res) => {
 
 app.use('/api/products', productRoutes);
 
-const PORT = 4000;
+const PORT = 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
